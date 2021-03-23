@@ -1,0 +1,81 @@
+/*
+  authors: Aarish Khan (A00424024)
+  authors: Jawadur Rahman (A00434830)
+  authors: Jeeva Murugesan (A00433568)
+  authors: Nicholas Landers (A00420823)
+
+  It is ordered starting with HTML elements, followed by classes, followed by id
+*/
+
+/* jQuery Mobile classes              */
+/* Background colour                  */
+.ui-page,
+.ui-header {
+  background: #cedbce !important;
+}
+
+/* margin space between rows */
+.ui-grid-c {
+  margin-bottom: 20;
+}
+
+/* hide default slider text box      */
+.ui-slider-input {
+  display: none !important;
+}
+
+/* programmer defined class section */
+/* to make the button options not being used grey */
+.greyBtn {
+  color: grey;
+}
+
+/* control all output boxes size and margin (except annualEnergyInput)*/
+.outputDiv {
+  margin-left: 50px;
+  width: 50px;
+}
+
+
+/* blue font for functional VIEW CHAPTERS select options*/
+.blueBtn {
+  color: blue;
+}
+
+/* programmer defined id's */
+/* fot the title image */
+#xTitle {
+  margin-left: 85px;
+  margin-top: 75px;
+}
+
+/* for the crate picture */
+#crate {
+  margin-right: 300px;
+}
+
+/* movement of chapter button */
+#chapter {
+  margin-top: 75px;
+}
+
+/* change color of text in view chapters button */
+#insulation, #vChap {
+  color: blue;
+}
+
+/* Output boxes div sizes */
+#planSldOutDiv,
+#windowSldOutDiv {
+  width: 50px;
+}
+
+/* slider div margin */
+#windowSldOutDiv {
+  margin-left: 50px;
+}
+
+/* annualEnergyInput Output box size*/
+#annualEnergyInput {
+  width: 75px;
+}
