@@ -147,7 +147,9 @@ $(document).on('change', '#doorTRSld', function () {
 });
 // H: EFFECTIVE OVERALL THERMAL RESISTANCE when slider changed
 $(document).on('change', '#thicknessSld', function () {
-  overallThermResitChange();
+  overallThermResitChange();//delete possibly
+
+
 });
 $(document).on('change', '#doorTRSld', function () {
   overallThermResitChange();
@@ -213,6 +215,15 @@ function processInput() {
   $('#windowSldOut').val(toOneDecimal(winAreaNum));
 
   //$("#windowSldOut").val(winAreaNum);
+  
+  //Changes H when select is changed Fixes Lag problem for Construction
+  var myVar = setInterval(function(){ 
+  opqTherResNum = $('#opaqueTROut').val();
+  overallThermResitChange();
+  console.log("H: ", $('#planSldOut').val());//DELETE LINE after testing
+  
+  }, 1);
+  setTimeout(function(){ clearInterval(myVar); }, 100);
 
 }
 
@@ -445,14 +456,7 @@ function pWallColor(num) {
   overallThermResitChange(); ///possibly delete
   
   
-  //Changes H when select is changed
-  var myVar = setInterval(function(){ 
-  opqTherResNum = $('#opaqueTROut').val();
-  $('#planSldOut').val(1 / (((800 - winAreaNum) / opqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
-  console.log("H: ", $('#planSldOut').val());//DELETE LINE after testing
-  }, 1);
-  //clearInterval(myVar);
-  setTimeout(function(){ clearInterval(myVar); }, 100);
+
 
 }
 
