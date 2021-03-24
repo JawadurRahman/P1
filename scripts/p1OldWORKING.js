@@ -23,15 +23,14 @@ let pCurrColor, pCurrThick, eWindow;
   places with degree days value variable (A), heat resistance variable (B), opaque thickness variable (C)
   all for calculations
 */
-let dDaysNum, rInchNum, opqThickNum, opqTherResNum, doorTherResNum, winTherResNum, winAreaNum;
+let dDaysNum, rInchNum, opqThickNum, OpqTherResNum, doorTherResNum, winTherResNum, winAreaNum;
 rInchNum = 0;
 opqThickNum = 2;
 winAreaNum = 0;
-opqTherResNum = 0;
+OpqTherResNum = 0;
 doorTherResNum = 2;
 winTherResNum = 1;
-dDaysNum = 0;
-let eoTherResNum ;
+
 /*
   The purpose of this function is to hide the Insulation Chapter
   when the page loads and draw the plan and elevation canvas in the Chapter.
@@ -111,12 +110,10 @@ function setup() {
   $("#thicknessSld").on("change", function () {
     processInput();
   });
-  // sets the opq thickness slider to 2 initially
   $("#thicknessSldOut").val(2);
-  // Commented this out because we have the pWallColor function that is used when the construction is chnaged
-  // $("#construction").on("change", function () {
-  //   processInput();
-  // });
+  $("#construction").on("change", function () {
+    processInput();
+  });
   $("#doorTRSld").on("change", function () {
     processInput();
   });
@@ -132,36 +129,6 @@ function setup() {
   //initialize Concepts output
   $('p').hide();
 
-  // D: OPAQUE THERMAL RESISTANCE when slider changed
-$(document).on('change', '#thicknessSld', function () {
-  $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
-});
-// D: when construction select changed (Also part of H) NOW IN pWALLCOLOR
-// $(document).on('change', '#construction', function () {
-//   overallThermResitChange();
-//   $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
-// });
-//E: when door THERMAL RESISTANCE slider changed
-$(document).on('change', '#doorTRSld', function () {
-  $('#doorTRSldOut').val($(this).val());
-});
-// H: EFFECTIVE OVERALL THERMAL RESISTANCE when slider changed
-$(document).on('change', '#thicknessSld', function () {
-  overallThermResitChange();
-});
-$(document).on('change', '#doorTRSld', function () {
-  overallThermResitChange();
-});
-$(document).on('change', '#windowTRSld', function () {
-  overallThermResitChange();
-});
-$(document).on('change', '#windowSld', function () {
-  overallThermResitChange();
-});
-
-$(document).on('change', '#windowTRSld', function () {
-  $('#windowTRSldOut').val($(this).val());
-});
 }
 
 
@@ -184,6 +151,46 @@ function chapChoice(value) {
   }
 }
 
+// Degree Days Choice variable assignment
+function dDaysChoice(value) {
+  dDaysNum = value;
+}
+
+/* 
+  The purpose of this function is to change the colour of the insulation 
+  depending on the selection. Also assigns the heat resistance value to
+  the variable
+*/
+function pWallColor(num) {
+  switch (num) {
+    case "1":
+      pCurrColor = "#d2cbcd";
+      rInchNum = 0;
+      break;
+    case "2":
+      pCurrColor = "#d2cbcd";
+      rInchNum = 0;
+      break;
+    case "3c":
+      pCurrColor = "#e8e5e4";
+      rInchNum = 3;
+      break;
+    case "3f":
+      pCurrColor = "#fec7d4";
+      rInchNum = 3;
+      break;
+    case "6":
+      pCurrColor = "#fdfaaa";
+      rInchNum = 6;
+      break;
+  }
+  // makes sure that color does not change before slider is used
+  if ($("#thicknessSld").val() > 2) {
+    draw();
+  }
+}
+
+
 /*
   The purpose of this function is to grab the values 
   when sliders are moved and call the draw function using those values.
@@ -201,8 +208,8 @@ function processInput() {
 
   eWindow = $("#windowSld").val() / 2;
   draw();
-  opqTherResNum = $("#opaqueTROut").val();
-  $("#opaqueTROut").val(opqTherResNum);
+  OpqTherResNum = $("#opaqueTROut").val();
+  $("#opaqueTROut").val(OpqTherResNum);
   doorTherResNum = $("#doorTRSld").val();
   $("#doorTRSldOut").val(doorTherResNum);
   winTherResNum = $("#windowTRSld").val();
@@ -392,12 +399,11 @@ function draw() {
   }
 }
 
-// NEED COMMENTS, Moved to setup as well
-/////////////////////////////////////////////////////////////////////////////
-// $(document).on('change', '#windowTRSld', function () {
-//   $('#windowTRSldOut').val($(this).val());
-// });
-/////////////////////////////////////////////////////////////////////////////
+// NEED COMMENTS
+$(document).on('change', '#windowTRSld', function () {
+  $('#windowTRSldOut').val($(this).val());
+});
+
 // DELETE if Window Area ok  
 // $(document).on("change", '#windowSld', function () {
 //   $('#windowSldOut').val(toOneDecimal($(this).val() / 12));
@@ -407,127 +413,46 @@ function toOneDecimal(num) {
   return Math.trunc((num * 10)) / 10;
 }
 
-/* 
-  The purpose of this function is to change the colour of the insulation 
-  depending on the selection. Also assigns the heat resistance value to
-  the variable. Also deals with part of D and H
-*/
-function pWallColor(num) {
-  switch (num) {
-    case "1":
-      pCurrColor = "#d2cbcd";
-      rInchNum = 0;
-      break;
-    case "2":
-      pCurrColor = "#d2cbcd";
-      rInchNum = 0;
-      break;
-    case "3c":
-      pCurrColor = "#e8e5e4";
-      rInchNum = 3;
-      break;
-    case "3f":
-      pCurrColor = "#fec7d4";
-      rInchNum = 3;
-      break;
-    case "6":
-      pCurrColor = "#fdfaaa";
-      rInchNum = 6;
-      break;
-  }
-  // makes sure that color does not change before slider is used
-  if ($("#thicknessSld").val() > 2) {
-    draw();
-  }
-
-  processInput();
-  $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
-  overallThermResitChange(); ///possibly delete
-  
-  
-  //Changes H when select is changed
-  var myVar = setInterval(function(){ 
-  opqTherResNum = $('#opaqueTROut').val();
-  $('#planSldOut').val(1 / (((800 - winAreaNum) / opqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
-  console.log("H: ", $('#planSldOut').val());//DELETE LINE after testing
-  }, 1);
-  //clearInterval(myVar);
-  setTimeout(function(){ clearInterval(myVar); }, 100);
-
-}
-
-// all of this was moved to the setup function
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 // D: OPAQUE THERMAL RESISTANCE when slider changed
-// $(document).on('change', '#thicknessSld', function () {
-//   $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
-// });
-// D: when construction select changed (Also part of H) NOW IN pWALLCOLOR
-// $(document).on('change', '#construction', function () {
-//   overallThermResitChange();
-//   $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
-// });
+$(document).on('change', '#thicknessSld', function () {
+  $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
+});
+// D: when construction select changed
+$(document).on('change', '#construction', function () {
+  $('#opaqueTROut').val(2 + (opqThickNum - 2) * rInchNum);
+});
 //E: when door THERMAL RESISTANCE slider changed
-// $(document).on('change', '#doorTRSld', function () {
-//   $('#doorTRSldOut').val($(this).val());
-// });
-// // H: EFFECTIVE OVERALL THERMAL RESISTANCE when slider changed
-// $(document).on('change', '#thicknessSld', function () {
-//   overallThermResitChange();
-// });
-// $(document).on('change', '#doorTRSld', function () {
-//   overallThermResitChange();
-// });
-// $(document).on('change', '#windowTRSld', function () {
-//   overallThermResitChange();
-// });
-// $(document).on('change', '#windowSld', function () {
-//   overallThermResitChange();
-// });
+$(document).on('change', '#doorTRSld', function () {
+  $('#doorTRSldOut').val($(this).val());
+});
+// H: EFFECTIVE OVERALL THERMAL RESISTANCE when slider changed
+$(document).on('change', '#thicknessSld', function () {
+  $('#planSldOut').val(1 / (((800 - winAreaNum) / OpqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
+});
+$(document).on('change', '#doorTRSld', function () {
+  $('#planSldOut').val(1 / (((800 - winAreaNum) / OpqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
+});
+$(document).on('change', '#windowTRSld', function () {
+  $('#planSldOut').val(1 / (((800 - winAreaNum) / OpqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
+});
+$(document).on('change', '#windowSld', function () {
+  $('#planSldOut').val(1 / (((800 - winAreaNum) / OpqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
+});
+$(document).on('change', '#construction', function () {
+  $('#planSldOut').val(1 / (((800 - winAreaNum) / OpqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
+});
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+function showConcepts(value) {
 
-// $(document).on('change', '#construction', function () {
-//   $('#planSldOut').val(1 / (((800 - winAreaNum) / opqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
-//   eoTherResNum = $('#planSldOut').val();
-//   $('#AEplanSldOut').val((820*dDaysNum*1.8*24/eoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
-// });
-
-function overallThermResitChange() {
-  $('#planSldOut').val(1 / (((800 - winAreaNum) / opqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
-  eoTherResNum = $('#planSldOut').val();
-  $('#AEplanSldOut').val((820*dDaysNum*1.8*24/eoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
-}
-
-///////////////////////////////hCalculation function maybe use, toOneDecimal function would be better for this
-// function hCalculation() {
-//   let x = 1/(((800 - winAreaNum)/opqTherResNum + winAreaNum/winTherResNum  + 20/doorTherResNum)/820);
-//   return Math.round((x * 10)) / 10;
-// }
-
-// Degree Days Choice variable assignment
-function dDaysChoice(value) {
-  dDaysNum = value;
-  $('#AEplanSldOut').val((820*dDaysNum*1.8*24/eoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
-}
-
-// I: ANNUAL ENERGY, used dDaysChoice instead
-// $(document).on('change', '#degreeDays', function () {
-//   $('#AEplanSldOut').val((820*dDaysNum*1.8*24/eoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
-// });
-// $(document).on('change', '#planSldOut', function () {
-//   $('#AEplanSldOut').val((820*dDaysNum*1.8*24/eoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
-//   //console.log($('#AEplanSldOut').val());
-//});
-
-// shows different readouts depenign on the selection 
-function showConcepts() {
-  $(".textChange").change(function () {
+  $('select').change(function () {
     $('p').hide();
     var a = $(this).val();
     $("#" + a).show();
   });
-}
+
+
+
+
 
 
 

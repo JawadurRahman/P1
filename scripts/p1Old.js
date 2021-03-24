@@ -506,10 +506,10 @@ $(document).on('change', '#construction', function () {
   $('#planSldOut').val(Math.trunc((1 / (((800 - winAreaNum) / OpqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820))*10))/10});
 // I: ANNUAL ENERGY
 $(document).on('change', '#degreeDays', function () {
-  $('#AEplanSldOut').val((820*dDaysNum*1.8*24/EoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
+  $('#AEplanSldOut').val((820*dDaysNum*1.8*24/EoTherResNum)/3412 + dDaysNum*1.8*24*65/3412+3000);
 });
 $(document).on('change', '#planSldOut', function () {
-  $('#AEplanSldOut').val((820*dDaysNum*1.8*24/EoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
+  $('#AEplanSldOut').val((820*dDaysNum*1.8*24/EoTherResNum)/3412 + dDaysNum*1.8*24*65/3412+3000);
 });
  
 // used to show proper text based on selection
