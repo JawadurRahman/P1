@@ -498,6 +498,9 @@ function pWallColor(num) {
 // });
 
 function overallThermResitChange() {
+  //gets the tructuated windowArea outputed to use in calculations
+  winAreaNum = $('#windowSldOut').val();
+
   $('#planSldOut').val(1 / (((800 - winAreaNum) / opqTherResNum + winAreaNum / winTherResNum + 20 / doorTherResNum) / 820));
   eoTherResNum = $('#planSldOut').val();
   $('#AEplanSldOut').val((820*dDaysNum*1.8*24/eoTherResNum)/3412+dDaysNum*1.8*24*65/3412+3000);
